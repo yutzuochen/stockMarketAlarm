@@ -1,0 +1,1 @@
+股價設定檔在 constant\constant.py

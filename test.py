@@ -1,20 +1,12 @@
-import re
+# from taiex import taiexAlarm
+from calculate import sn_moneydj 
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+def test():
+    # taiexAlarm()
+    sn_moneydj.taiexKValue_month9()
 
-# Input string
-input_string = "K(9,3) 87.51%D(9,3) 84.87%"
-
-# Regular expression pattern to match "87" before "%"
-# pattern = r'K\(9,3\) \d+\.\d+%'
-# pattern = r'\bK\(9,3\) (\d+\.\d+%)'
-pattern = r'K\(9,3\) (\d+(?:\.\d+)?)'
 
 
-# Search for the pattern in the input string
-match = re.search(pattern, input_string).group(1)
-
-# Check if a match is found and print the result
-if match:
-    result = match.group(1)
-    print("Matched value:", result)
-else:
-    print("No match found")
+test()
