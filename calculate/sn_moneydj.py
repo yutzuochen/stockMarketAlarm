@@ -5,12 +5,13 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 import re
 import os
-from constant import constant
+# from constant import constant
 import tkinter as tk
 from tkinter import font
 import random
 import targetValue
-from playsound import playsound
+# from playsound import playsound
+import targetValue
 
 g1, g2 = 1000, 1000
 path2 = os.getenv("ChromedriverPath")
@@ -23,7 +24,7 @@ def move():
     popup.after(1000, move)
 
 def taiexKValue_day9():
-    targetK_floor = constant.taiex_KValueFloor_day_9_alarm
+    targetK_floor = targetValue.taiex_KValueFloor_day_9_alarm
     path = os.getenv("ChromedriverPath")
     # 创建 WebDriver 对象，指明使用chrome浏览器驱动
     # wd = webdriver.Chrome(service=Service(r'd:\tools\chromedriver.exe'))
@@ -40,8 +41,8 @@ def taiexKValue_day9():
     if match:
         kValue = float(match.group(1))
 
-        if kValue < constant.taiex_KValueFloor_day_9_alarm:
-            print("大盤的 K 值已小於目標值(", constant.taiex_KValueFloor_day_9_alarm, ")，目前 K 值為: ", kValue)
+        if kValue < targetK_floor:
+            print("大盤的 K 值已小於目標值(", targetK_floor, ")，目前 K 值為: ", kValue)
             # root = tk.Tk()
             # root.withdraw()
             # root.withdraw()
@@ -59,7 +60,9 @@ def taiexKValue_day9():
 
 
 def taiexKValue_month9():
-    targetKvalue_floor = constant.taiex_KValueFloor_month_9_alarm
+    # targetKvalue_floor = constant.taiex_KValueFloor_month_9_alarm
+    targetKvalue_floor = targetValue.taiex_KValueFloor_month_9_alarm
+    
     path = os.getenv("ChromedriverPath")
     # 创建 WebDriver 对象，指明使用chrome浏览器驱动
     # wd = webdriver.Chrome(service=Service(r'd:\tools\chromedriver.exe'))
@@ -81,7 +84,7 @@ def taiexKValue_month9():
         kValue = float(match.group(1))
 
         if kValue < targetKvalue_floor:
-            print("大盤的 K 值已小於目標值(", constant.taiex_KValueFloor_month_9_alarm, ")，目前 K 值為: ", kValue)
+            print("大盤的 K 值已小於目標值(", targetKvalue_floor, ")，目前 K 值為: ", kValue)
             # root = tk.Tk()
             # root.withdraw()
             # popup = tk.Toplevel(root)

@@ -9,7 +9,7 @@ def test():
     # taiexAlarm()
     # playsound("sound\Recording.mp3")
     sn_moneydj.stockPrice_2886()
-    sn_moneydj.taiexKValue_day9()
+    # sn_moneydj.taiexKValue_day9()
 
 
 
