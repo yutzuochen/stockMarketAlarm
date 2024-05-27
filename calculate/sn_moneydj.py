@@ -10,6 +10,7 @@ import tkinter as tk
 from tkinter import font
 import random
 import targetValue
+from playsound import playsound
 
 g1, g2 = 1000, 1000
 path2 = os.getenv("ChromedriverPath")
