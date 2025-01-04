@@ -63,7 +63,7 @@ def taiexKValue_month9():
     # targetKvalue_floor = constant.taiex_KValueFloor_month_9_alarm
     targetKvalue_floor = targetValue.taiex_KValueFloor_month_9_alarm
     
-    path = os.getenv("ChromedriverPath")
+    # path = os.getenv("ChromedriverPath")
     # 创建 WebDriver 对象，指明使用chrome浏览器驱动
     # wd = webdriver.Chrome(service=Service(r'd:\tools\chromedriver.exe'))
     driver = webdriver.Chrome()
@@ -128,7 +128,7 @@ def popUp(popup, price, targetPrice):
 
     # root.mainloop()
     print("ok")
-
+# 兆豐金
 def stockPrice_2886():
     # targetPrice = constant.stock_PriceFloor_2886_alarm
     targetPrice = targetValue.stock_PriceFloor_2886_alarm
