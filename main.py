@@ -4,6 +4,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 def main():
+    # ETF-00915
+    sn_moneydj.etf_00915_kValue_day9()
     # 兆豐金
     sn_moneydj.stockPrice_2886()
     # 大盤日K值下限

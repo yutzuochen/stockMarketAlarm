@@ -143,6 +143,40 @@ def stockPrice_2886():
     driver.quit()
     print("========== end ============")
 
+# ETF-00915日K值
+def etf_00915_kValue_day9():
+    targetK_floor = targetValue.stock_KValueFloor_day_9_00915_alarm
+    # path = os.getenv("ChromedriverPath")
+    # 创建 WebDriver 对象，指明使用chrome浏览器驱动
+    # wd = webdriver.Chrome(service=Service(r'd:\tools\chromedriver.exe'))
+    driver = webdriver.Chrome()
+    driver.get('https://www.moneydj.com/ETF/X/Basic/Basic0002.xdjhtm?etfid=00915.TW')
+    # TODO: catch error:if URL change
+    # driver.get('https://www.money.com/Z/ZB/ZBH/ZBH.djhtm')
+    # if not get:
+    # ....
+    element = driver.find_element(By.ID, 'fg2')
+    kdString = element.text
+
+    pattern = r'K\(9,3\) (\d+(?:\.\d+)?)'
+    match = re.search(pattern, kdString)
+    if match:
+        kValue = float(match.group(1))
+
+        if kValue < targetK_floor:
+            print("大盤的 K 值已小於目標值(", targetK_floor, ")，目前 K 值為: ", kValue)
+            popUp(popup, kValue, targetK_floor)
+            def move():
+                global g1, g2
+                popup.geometry(f'{str(g1)}x{str(g2)}+{random.randint(0, 800)}+{random.randint(0, 600)}')
+                popup.after(1000, move)
+
+            move()
+            popup.mainloop()
+    # input('等待回车键结束程序')
+    driver.quit()
+
+
 # if __name__ == "__main__":
 #     print("XDDDDDDDDDDDDDDDDDDDDDDDD")
 #     stockPrice_2886()
