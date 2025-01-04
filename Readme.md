@@ -1,1 +1,1 @@
-股價設定檔在 constant\constant.py
+股價設定檔在 targetValue.py

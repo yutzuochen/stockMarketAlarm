@@ -22,7 +22,7 @@ def move():
     global g1, g2
     popup.geometry(f'{str(g1)}x{str(g2)}+{random.randint(0, 800)}+{random.randint(0, 600)}')
     popup.after(1000, move)
-
+# 大盤日K值
 def taiexKValue_day9():
     targetK_floor = targetValue.taiex_KValueFloor_day_9_alarm
     path = os.getenv("ChromedriverPath")
@@ -30,23 +30,20 @@ def taiexKValue_day9():
     # wd = webdriver.Chrome(service=Service(r'd:\tools\chromedriver.exe'))
     driver = webdriver.Chrome()
     driver.get('https://www.moneydj.com/Z/ZB/ZBH/ZBH.djhtm')
-
-
+    # TODO: catch error:if URL change
+    # driver.get('https://www.money.com/Z/ZB/ZBH/ZBH.djhtm')
+    # if not get:
+    # ....
     element = driver.find_element(By.ID, 'fg2')
     kdString = element.text
 
     pattern = r'K\(9,3\) (\d+(?:\.\d+)?)'
-    # pattern = r'K\(10,3\) (\d+(?:\.\d+)?)'
     match = re.search(pattern, kdString)
     if match:
         kValue = float(match.group(1))
 
         if kValue < targetK_floor:
             print("大盤的 K 值已小於目標值(", targetK_floor, ")，目前 K 值為: ", kValue)
-            # root = tk.Tk()
-            # root.withdraw()
-            # root.withdraw()
-            # popup = tk.Toplevel(root)
             popUp(popup, kValue, targetK_floor)
             def move():
                 global g1, g2
@@ -58,21 +55,21 @@ def taiexKValue_day9():
     # input('等待回车键结束程序')
     driver.quit()
 
-
+# 大盤月K值
 def taiexKValue_month9():
-    # targetKvalue_floor = constant.taiex_KValueFloor_month_9_alarm
     targetKvalue_floor = targetValue.taiex_KValueFloor_month_9_alarm
-    
     # path = os.getenv("ChromedriverPath")
-    # 创建 WebDriver 对象，指明使用chrome浏览器驱动
-    # wd = webdriver.Chrome(service=Service(r'd:\tools\chromedriver.exe'))
+    # 創建 Web driver 物件，指定使用chrome瀏覽器驅動
     driver = webdriver.Chrome()
+    # moneyDJ 的大盤指數，網址可能隨時會動
     driver.get('https://www.moneydj.com/Z/ZB/ZBH/ZBH.djhtm')
 
-
+    # TODO: catch error:if URL change
+    # driver.get('https://www.money.com/Z/ZB/ZBH/ZBH.djhtm')
+    # if not get:
+    # ....
     element = driver.find_element(By.NAME, 'T')
     select = Select(element)
-    # select.select_by_value("月線")
     select.select_by_visible_text('月線')
 
     kdElement = driver.find_element(By.ID, 'fg2')
@@ -82,12 +79,8 @@ def taiexKValue_month9():
     match = re.search(pattern, kdString)
     if match:
         kValue = float(match.group(1))
-
         if kValue < targetKvalue_floor:
             print("大盤的 K 值已小於目標值(", targetKvalue_floor, ")，目前 K 值為: ", kValue)
-            # root = tk.Tk()
-            # root.withdraw()
-            # popup = tk.Toplevel(root)
             popUp(popup, kValue, targetKvalue_floor)
             def move():
                 global g1, g2
@@ -96,8 +89,9 @@ def taiexKValue_month9():
 
             move()
             popup.mainloop()
-    input('等待回车键结束程序')
+    # input('等待回车键结束程序')
     driver.quit()
+
 
 # def move():
 #     global g1, g2
@@ -128,25 +122,19 @@ def popUp(popup, price, targetPrice):
 
     # root.mainloop()
     print("ok")
+    
 # 兆豐金
 def stockPrice_2886():
-    # targetPrice = constant.stock_PriceFloor_2886_alarm
     targetPrice = targetValue.stock_PriceFloor_2886_alarm
     driver = webdriver.Chrome()
     driver.get('https://histock.tw/stock/2886')
-    element = driver.find_element(By.CLASS_NAME, 'clr-gr')
+    element = driver.find_element(By.CLASS_NAME, 'clr-rd')
+    #TODO:catch error
     price2886 = float(element.text)
     if price2886 < targetPrice:
         print("兆豐金現價已小於目標值(", targetPrice, ")，目前 K 值為: ", price2886)
-        # root = tk.Tk()
-        # root.withdraw()
-        # root.withdraw()
-        # popup = tk.Toplevel(root)
+
         popUp(popup, price2886, targetPrice)
-        # def move():
-        #     global g1, g2
-        #     popup.geometry(f'{str(g1)}x{str(g2)}+{random.randint(0, 800)}+{random.randint(0, 600)}')
-        #     popup.after(1000, move)
 
         move()
         popup.mainloop()
@@ -155,8 +143,8 @@ def stockPrice_2886():
     driver.quit()
     print("========== end ============")
 
-if __name__ == "__main__":
-    print("XDDDDDDDDDDDDDDDDDDDDDDDD")
-    stockPrice_2886()
+# if __name__ == "__main__":
+#     print("XDDDDDDDDDDDDDDDDDDDDDDDD")
+#     stockPrice_2886()
 # if __name__ == "__main__":
 #     taiexKValue_month9()
