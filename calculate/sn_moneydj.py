@@ -8,7 +8,7 @@ import tkinter as tk
 from tkinter import font
 import random
 import targetValue
-# from playsound import playsound
+from playsound import playsound
 import targetValue
 import logSys
 
@@ -43,6 +43,9 @@ def taiexKValue_day9():
     if match:
         kValue = float(match.group(1))
         if kValue < targetK_floor:
+            # 語音提醒
+            soundFile = "C:/Users/ASUS/Documents/stockMarketAlarm/sound/Recording.mp3"
+            playsound(soundFile)
             print("大盤的日 K 值已小於目標值(", targetK_floor, ")，目前 K 值為: ", kValue)
             roottk = Roottk(1000, 1000)
             roottk.popUp(kValue , targetK_floor,"大盤", "日K值")
@@ -81,6 +84,9 @@ def taiexKValue_month9():
     if match:
         kValue = float(match.group(1))
         if kValue < targetKvalue_floor:
+            # 語音提醒
+            soundFile = "C:/Users/ASUS/Documents/stockMarketAlarm/sound/Recording.mp3"
+            playsound(soundFile)
             print("大盤的月 K 值已小於目標值(", targetKvalue_floor, ")，目前月 K 值為: ", kValue)
             roottk = Roottk(1000, 1000)
             roottk.popUp(kValue , targetKvalue_floor,"大盤", "月K值")
@@ -102,13 +108,12 @@ def stockPrice_2886():
     #TODO:catch error
     price2886 = float(element.text)
     if price2886 < targetPrice:
+        # 語音提醒
+        soundFile = "C:/Users/ASUS/Documents/stockMarketAlarm/sound/Recording.mp3"
+        playsound(soundFile)
         print("兆豐金現價已小於目標值(", targetPrice, ")，目前 K 值為: ", price2886)
         roottk = Roottk(1000, 1000)
         roottk.popUp(price2886 , targetPrice,"兆豐金", "股價")
-        # def move():
-        #     global g1, g2
-        #     popup.geometry(f'{str(g1)}x{str(g2)}+{random.randint(0, 800)}+{random.randint(0, 600)}')
-        #     popup.after(1000, move)
         roottk.move()
         roottk.popup.mainloop()
 
@@ -138,6 +143,9 @@ def etf_00915_kValue_day9():
         kValue = float(match.group(1))
 
         if kValue < targetK_floor:
+            # 語音提醒 TODO:做成多執行緒
+            soundFile = "C:/Users/ASUS/Documents/stockMarketAlarm/sound/Recording.mp3"
+            playsound(soundFile)
             print("ETF 00915的 K 值已小於目標值(", targetK_floor, ")，目前 K 值為: ", kValue)
             roottk = Roottk(1000, 1000)
             # popup = tk.Toplevel(root)
