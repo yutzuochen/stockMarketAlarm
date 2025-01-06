@@ -151,6 +151,8 @@ def stockPrice_2886():
 def etf_00915_kValue_day9():
     logger.error("Error: Something went wrong!")
     logger.critical("Critical: Serious problem occurred!")
+    gg = 100/0
+    print(gg)
     targetK_floor = targetValue.stock_KValueFloor_day_9_00915_alarm
     # path = os.getenv("ChromedriverPath")
     # 创建 WebDriver 对象，指明使用chrome浏览器驱动
