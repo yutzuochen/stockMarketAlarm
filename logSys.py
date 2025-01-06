@@ -4,12 +4,7 @@ import os
 from datetime import datetime
 import sys
 
-
 def setup_logger():
-    # Create a logs directory if it doesn't exist
-    # if not os.path.exists("logs"):
-    #     os.makedirs("logs")
-
     current_date = datetime.now().strftime("%Y-%m-%d")
     log_file = f"{current_date}.log"
 
@@ -24,14 +19,6 @@ def setup_logger():
     logger = logging.getLogger("DailyLogger")
     logger.setLevel(logging.DEBUG)  # Set the logging level
 
-    # Create a TimedRotatingFileHandler to rotate logs daily
-    # handler = TimedRotatingFileHandler(
-    #     # filename="logs/daily.log",  # Base filename for logs
-
-    #     when="midnight",           # Rotate logs at midnight
-    #     interval=1,                # Rotate every day
-    #     backupCount=7              # Keep logs for the last 7 days
-    # )
     # Configure the logger
     logging.basicConfig(
         filename=log_file_path,
@@ -39,15 +26,6 @@ def setup_logger():
         format="%(asctime)s - %(levelname)s - %(message)s",  # Include timestamp in log entries
         datefmt="%Y-%m-%d %H:%M:%S"  # Timestamp format
     )
-
-    # Define the log format
-    # formatter = logging.Formatter(
-    #     "%(asctime)s - %(levelname)s - %(message)s"
-    # )
-    # handler.setFormatter(formatter)
-
-    # # Add the handler to the logger
-    # logger.addHandler(handler)
 
     return logger
 
