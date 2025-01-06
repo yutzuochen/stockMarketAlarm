@@ -12,6 +12,10 @@ import random
 import targetValue
 # from playsound import playsound
 import targetValue
+import logSys
+
+logger = logSys.Logger
+
 
 g1, g2 = 1000, 1000
 path2 = os.getenv("ChromedriverPath")
@@ -145,6 +149,8 @@ def stockPrice_2886():
 
 # ETF-00915日K值
 def etf_00915_kValue_day9():
+    logger.error("Error: Something went wrong!")
+    logger.critical("Critical: Serious problem occurred!")
     targetK_floor = targetValue.stock_KValueFloor_day_9_00915_alarm
     # path = os.getenv("ChromedriverPath")
     # 创建 WebDriver 对象，指明使用chrome浏览器驱动
