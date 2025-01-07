@@ -104,7 +104,9 @@ def stockPrice_2886():
     targetPrice = targetValue.stock_PriceFloor_2886_alarm
     driver = webdriver.Chrome()
     driver.get('https://histock.tw/stock/2886')
-    element = driver.find_element(By.CLASS_NAME, 'clr-rd')
+    # element = driver.find_element(By.CLASS_NAME, 'priceinfo mt10')
+    element = driver.find_element(By.ID, "Price1_lbTPrice")
+    
     #TODO:catch error
     price2886 = float(element.text)
     if price2886 < targetPrice:
@@ -140,8 +142,13 @@ def etf_00915_kValue_day9():
     pattern = r'K\(9,3\) (\d+(?:\.\d+)?)'
     match = re.search(pattern, kdString)
     if match:
-        kValue = float(match.group(1))
+        
+        kValueStr = match.group(1)
+        # examine the string
+        # if kValueStr can't be float
+        # if 0 < kValue or kValue > 100
 
+        kValue = float(kValueStr)
         if kValue < targetK_floor:
             # 語音提醒 TODO:做成多執行緒
             soundFile = "C:/Users/ASUS/Documents/stockMarketAlarm/sound/Recording.mp3"
