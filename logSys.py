@@ -3,6 +3,9 @@ from logging.handlers import TimedRotatingFileHandler
 import os
 from datetime import datetime
 import sys
+from playsound import playsound
+import threading
+import time
 
 def setup_logger():
     current_date = datetime.now().strftime("%Y-%m-%d")
@@ -37,7 +40,16 @@ def log_uncaught_exceptions(exc_type, exc_value, exc_traceback):
         return
     Logger.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
 
+    plan_A_thread = threading.Thread(target = alertProcessErr)
+    # 語音提醒
+    plan_A_thread.start()
+    print("掛了啦啦啦_1")
+    time.sleep(2)
     # Override the default excepthook to log uncaught exceptions
+
+def alertProcessErr():
+    playsound("sound/processError.mp3")
+
 Logger = setup_logger()
 sys.excepthook = log_uncaught_exceptions
 

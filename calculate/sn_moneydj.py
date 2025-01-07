@@ -11,7 +11,8 @@ import targetValue
 from playsound import playsound
 import targetValue
 import logSys
-
+import threading
+import time
 logger = logSys.Logger
 
 
@@ -43,9 +44,10 @@ def taiexKValue_day9():
     if match:
         kValue = float(match.group(1))
         if kValue < targetK_floor:
-            # 語音提醒
-            soundFile = "C:/Users/ASUS/Documents/stockMarketAlarm/sound/Recording.mp3"
-            playsound(soundFile)
+            # 語音提醒 
+            plan_A_thread = threading.Thread(target = alertReachTarget)
+            # 執行執行緒
+            plan_A_thread.start()
             print("大盤的日 K 值已小於目標值(", targetK_floor, ")，目前 K 值為: ", kValue)
             roottk = Roottk(1000, 1000)
             roottk.popUp(kValue , targetK_floor,"大盤", "日K值")
@@ -84,9 +86,10 @@ def taiexKValue_month9():
     if match:
         kValue = float(match.group(1))
         if kValue < targetKvalue_floor:
-            # 語音提醒
-            soundFile = "C:/Users/ASUS/Documents/stockMarketAlarm/sound/Recording.mp3"
-            playsound(soundFile)
+            # 語音提醒 
+            plan_A_thread = threading.Thread(target = alertReachTarget)
+            # 執行執行緒
+            plan_A_thread.start()
             print("大盤的月 K 值已小於目標值(", targetKvalue_floor, ")，目前月 K 值為: ", kValue)
             roottk = Roottk(1000, 1000)
             roottk.popUp(kValue , targetKvalue_floor,"大盤", "月K值")
@@ -111,8 +114,9 @@ def stockPrice_2886():
     price2886 = float(element.text)
     if price2886 < targetPrice:
         # 語音提醒
-        soundFile = "C:/Users/ASUS/Documents/stockMarketAlarm/sound/Recording.mp3"
-        playsound(soundFile)
+        plan_A_thread = threading.Thread(target = alertReachTarget)
+        # 執行執行緒
+        plan_A_thread.start()
         print("兆豐金現價已小於目標值(", targetPrice, ")，目前 K 值為: ", price2886)
         roottk = Roottk(1000, 1000)
         roottk.popUp(price2886 , targetPrice,"兆豐金", "股價")
@@ -150,9 +154,12 @@ def etf_00915_kValue_day9():
 
         kValue = float(kValueStr)
         if kValue < targetK_floor:
-            # 語音提醒 TODO:做成多執行緒
-            soundFile = "C:/Users/ASUS/Documents/stockMarketAlarm/sound/Recording.mp3"
-            playsound(soundFile)
+            # 語音提醒 
+            plan_A_thread = threading.Thread(target = alertReachTarget)
+            # 執行執行緒
+            plan_A_thread.start()
+            # soundFile = "C:/Users/ASUS/Documents/stockMarketAlarm/sound/Recording.mp3"
+            # playsound(soundFile)
             print("ETF 00915的 K 值已小於目標值(", targetK_floor, ")，目前 K 值為: ", kValue)
             roottk = Roottk(1000, 1000)
             # popup = tk.Toplevel(root)
@@ -204,6 +211,9 @@ class Roottk():
         label.pack()
         self.popup.protocol("WM_DELETE_WINDOW", self.on_close)
 
+
+def alertReachTarget():
+    playsound("sound/Recording.mp3")
 
 # g1, g2 = 1000, 1000
 # root = tk.Tk()
