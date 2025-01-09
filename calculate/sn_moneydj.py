@@ -12,7 +12,7 @@ from playsound import playsound
 import targetValue
 import logSys
 import threading
-import time
+# import time
 logger = logSys.Logger
 
 
@@ -48,6 +48,7 @@ def taiexKValue_day9():
             plan_A_thread = threading.Thread(target = alertReachTarget)
             # 執行執行緒
             plan_A_thread.start()
+            
             print("大盤的日 K 值已小於目標值(", targetK_floor, ")，目前 K 值為: ", kValue)
             roottk = Roottk(1000, 1000)
             roottk.popUp(kValue , targetK_floor,"大盤", "日K值")
@@ -190,7 +191,8 @@ class Roottk():
         self.popup = tk.Toplevel(self.root)
     def move(self):
         self.popup.geometry(f'{str(self.g1)}x{str(self.g2)}+{random.randint(0, 800)}+{random.randint(0, 600)}')
-        self.popup.after(1000, self.move)
+        # 決定窗格幾秒動次
+        self.popup.after(3000, self.move)
     def exit_application(self):
         self.root.destroy()
     def on_close(self):
@@ -198,7 +200,7 @@ class Roottk():
         self.root.destroy()
     def popUp(self, price, targetPrice, stockName, techIndex):
         # global g1, g2
-        notification_title = "Stock Alert"
+        notification_title = f"{stockName} 目標 {techIndex} 已到達"
         notification_message = f"{stockName} {techIndex} is {price}.\n {techIndex} > {targetPrice}!"
         # logger.info(notification_message)
         print("notification_message: ", notification_message)

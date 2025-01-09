@@ -6,6 +6,39 @@ import sys
 from playsound import playsound
 import threading
 import time
+import tkinter as tk
+from tkinter import font
+import random
+class Roottk_log():
+    def __init__(self, g1, g2):
+        self.g1 = g1
+        self.g2 = g2
+        self.root = tk.Tk()
+        self.popup = tk.Toplevel(self.root)
+    def move(self):
+        self.popup.geometry(f'{str(self.g1)}x{str(self.g2)}+{random.randint(0, 800)}+{random.randint(0, 600)}')
+        self.popup.after(1000, self.move)
+    def exit_application(self):
+        self.root.destroy()
+    def on_close(self):
+        print("Closing the window")
+        self.root.destroy()
+    def popUp(self):
+        # global g1, g2
+        notification_title = "程式發生錯誤!!!"
+        notification_message = f"程式發生錯誤，請將 log 檔案傳給開發工程師!!"
+        # logger.info(notification_message)
+        print("notification_message: ", notification_message)
+        # popup = tk.Toplevel(root)
+        self.popup.title(notification_title)
+        self.popup.geometry(f'{str(self.g1)}x{str(self.g2)}')
+        custom_font = font.Font(family="Helvetica", size=16)
+
+        label = tk.Label(self.popup, text=notification_message, height= 100, padx=40, pady=10, font=custom_font, relief="ridge")
+        label.pack()
+        self.popup.protocol("WM_DELETE_WINDOW", self.on_close)
+
+
 
 def setup_logger():
     current_date = datetime.now().strftime("%Y-%m-%d")
@@ -44,6 +77,12 @@ def log_uncaught_exceptions(exc_type, exc_value, exc_traceback):
     # 語音提醒
     plan_A_thread.start()
     print("掛了啦啦啦_1")
+    # 跳出窗格提醒用戶
+    roottk = Roottk_log(3000, 3000)
+    roottk.popUp()
+    roottk.move()
+    roottk.popup.mainloop()
+    print("掛了啦啦啦_2")
     time.sleep(2)
     # Override the default excepthook to log uncaught exceptions
 
