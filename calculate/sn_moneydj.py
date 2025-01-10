@@ -12,10 +12,13 @@ from playsound import playsound
 import targetValue
 import logSys
 import threading
-# import time
+import time
 logger = logSys.Logger
 
-
+def get_chrome_browser():
+    driver = webdriver.Chrome()
+    driver.implicitly_wait(5)  # 隐式等待5s
+    return driver
 # g1, g2 = 1000, 1000
 # root = tk.Tk()
 # popup = tk.Toplevel(root)
@@ -24,9 +27,10 @@ logger = logSys.Logger
 #     popup.geometry(f'{str(g1)}x{str(g2)}+{random.randint(0, 800)}+{random.randint(0, 600)}')
 #     popup.after(1000, move)
 # 大盤日K值
-def taiexKValue_day9():
+def taiexKValue_day9(reportArr):
     logger.debug("==== start taiexKValue_day9 ====")
     targetK_floor = targetValue.taiex_KValueFloor_day_9_alarm
+    kValue = "??"
     # path = os.getenv("ChromedriverPath")
     # 创建 WebDriver 对象，指明使用chrome浏览器驱动
     # wd = webdriver.Chrome(service=Service(r'd:\tools\chromedriver.exe'))
@@ -60,11 +64,14 @@ def taiexKValue_day9():
             roottk.popup.mainloop()
     # input('等待回车键结束程序')
     driver.quit()
-
+    # [標的, 指標種類, 現在價格, 目標價格] e.g. [ETF-00915, K值, 18, 20]
+    # return ["加權指數", "日K值", kValue, targetValue.taiex_KValueFloor_day_9_alarm]
+    reportArr.append(["加權指數", "日K值", kValue, targetValue.taiex_KValueFloor_day_9_alarm])
 # 大盤月K值
-def taiexKValue_month9():
+def taiexKValue_month9(reportArr):
     logger.debug("==== start taiexKValue_month9 ====")
     targetKvalue_floor = targetValue.taiex_KValueFloor_month_9_alarm
+    kValue = "??"
     # path = os.getenv("ChromedriverPath")
     # 創建 Web driver 物件，指定使用chrome瀏覽器驅動
     driver = webdriver.Chrome()
@@ -102,10 +109,14 @@ def taiexKValue_month9():
             roottk.popup.mainloop()
     # input('等待回车键结束程序')
     driver.quit()
+    # [標的, 指標種類, 現在價格, 目標價格] e.g. [ETF-00915, K值, 18, 20]
+    # return ["加權指數", "月K值", kValue, targetValue.taiex_KValueFloor_month_9_alarm]
+    reportArr.append(["加權指數", "月K值", kValue, targetValue.taiex_KValueFloor_month_9_alarm])
 # 兆豐金
-def stockPrice_2886():
+def stockPrice_2886(reportArr):
     logger.debug("==== start stockPrice_2886 ====")
     targetPrice = targetValue.stock_PriceFloor_2886_alarm
+    price2886 = "??"
     driver = webdriver.Chrome()
     driver.get('https://histock.tw/stock/2886')
     # element = driver.find_element(By.CLASS_NAME, 'priceinfo mt10')
@@ -126,12 +137,15 @@ def stockPrice_2886():
 
     # input('等待回车键结束程序')
     driver.quit()
-    
+    # [標的, 指標種類, 現在價格, 目標價格] e.g. [ETF-00915, K值, 18, 20]
+    # return ["兆豐金", "價格", price2886, targetValue.stock_PriceFloor_2886_alarm]
+    reportArr.append(["兆豐金", "價格", price2886, targetValue.stock_PriceFloor_2886_alarm])
 
 # ETF-00915日K值
-def etf_00915_kValue_day9():
+def etf_00915_kValue_day9(reportArr):
     logger.debug("==== start etf_00915_kValue_day9 ====")
     targetK_floor = targetValue.stock_KValueFloor_day_9_00915_alarm
+    kValue = "??"
     # path = os.getenv("ChromedriverPath")
     # 创建 WebDriver 对象，指明使用chrome浏览器驱动
     # wd = webdriver.Chrome(service=Service(r'd:\tools\chromedriver.exe'))
@@ -146,6 +160,7 @@ def etf_00915_kValue_day9():
 
     pattern = r'K\(9,3\) (\d+(?:\.\d+)?)'
     match = re.search(pattern, kdString)
+    
     if match:
         
         kValueStr = match.group(1)
@@ -175,12 +190,53 @@ def etf_00915_kValue_day9():
             roottk.popup.mainloop()
     # input('等待回车键结束程序')
     driver.quit()
+    # [標的, 指標種類, 現在價格, 目標價格] e.g. [ETF-00915, K值, 18, 20]
+    # return ["ETF-00915", "日K值", kValue, targetK_floor]
+    reportArr.append(["ETF-00915", "日K值", kValue, targetK_floor])
 
+# ETF-00915日K值
+def etf_00915_kValue_day9_from_money_link(reportArr):
+    logger.debug("==== start etf_00915_kValue_day9 ====")
+    targetK_floor = targetValue.stock_KValueFloor_day_9_00915_alarm
+    driver = get_chrome_browser()
+    driver.get('https://tweb.money-link.com.tw/TWStock/StockTA.aspx?SymId=00915#SubMain')
+    select_element = driver.find_element("xpath", '//*[@id="TADrawKindMoneyLinkTA"]')
+    select = Select(select_element)
+    select.select_by_visible_text('KD,J')
 
-# def move():
-#     global g1, g2
-#     popup.geometry(f'{str(g1)}x{str(g2)}+{random.randint(0, 800)}+{random.randint(0, 600)}')
-#     popup.after(1000, move)
+    # kdSelect = driver.find_element("xpath", '//*[@id="highcharts-39"]/div/span/table/tbody/tr/td/span[1]')
+    kdSelect = driver.find_element("xpath", '//*[@id="highcharts-39"]/div/span/table/tbody/tr/td')
+    kdString = kdSelect.text
+
+    # pattern = r'K\(9,3\) (\d+(?:\.\d+)?)'
+    pattern = r'K9\s+(\d+\.\d+)'
+    
+    match = re.search(pattern, kdString)
+    if match:
+        kValueStr = match.group(1)
+        # test case
+        kValueStr = "+9u"
+        # examine element from website
+        try:
+            kValue = float(kValueStr)
+        except:
+            logger.warning("[etf_00915_kValue_day9_from_money_link] kValueStr cant be float. kValueStr is %s", kValueStr)
+            return
+        if kValue < 0 or kValue > 100:
+            logger.warning("[etf_00915_kValue_day9_from_money_link] kValue < 0 or kValue > 100. kValueStr is %s", kValueStr)
+            return
+        if kValue < targetK_floor:
+            # 語音提醒 
+            plan_A_thread = threading.Thread(target = alertReachTarget)
+            # 執行執行緒
+            plan_A_thread.start()
+            print("ETF 00915的 K 值已小於目標值(", targetK_floor, ")，目前 K 值為: ", kValue)
+            roottk = Roottk(3000, 3000)
+            roottk.popUp(kValue, targetK_floor,"ETF 00915", "日K值")
+            roottk.move()
+            roottk.popup.mainloop()
+    driver.quit()
+
 
 
 class Roottk():
@@ -212,6 +268,9 @@ class Roottk():
         label = tk.Label(self.popup, text=notification_message, height= 100, padx=40, pady=10, font=custom_font, relief="ridge")
         label.pack()
         self.popup.protocol("WM_DELETE_WINDOW", self.on_close)
+
+
+
 
 
 def alertReachTarget():
@@ -251,9 +310,7 @@ def alertReachTarget():
 #     print("ok")
     
 
-
-# if __name__ == "__main__":
-#     print("XDDDDDDDDDDDDDDDDDDDDDDDD")
-#     stockPrice_2886()
-# if __name__ == "__main__":
-#     taiexKValue_month9()
+# test
+if __name__ == "__main__":
+    print("XDDDDDDDDDDDDDDDDDDDDDDDD")
+    etf_00915_kValue_day9_nstock()
